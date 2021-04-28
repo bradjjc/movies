@@ -5,7 +5,6 @@ import 'model/movies.dart';
 
 class DetailScreen extends StatelessWidget {
   final Results movie;
-
   DetailScreen({@required this.movie});
 
   @override
@@ -22,14 +21,15 @@ class DetailScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  movie.title,
+                  '  ${movie.title}',
                   style: TextStyle(
-                      fontSize: 30,
-                      color: Colors.indigo,
-                      fontWeight: FontWeight.bold),
+                      fontSize: 40,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                  ),
                 ),
                 SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +46,10 @@ class DetailScreen extends StatelessWidget {
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text('개봉일 : ${movie.releaseDate}'),
+                          child: Text('개봉일 : ${movie.releaseDate}',
+                            style: TextStyle(
+                              fontSize: 20,
+                            )),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -56,7 +59,7 @@ class DetailScreen extends StatelessWidget {
                                 elevation: 5,
                                 color: Colors.blue,
                                 child: Padding(
-                                  padding: const EdgeInsets.all(6),
+                                  padding: const EdgeInsets.all(9),
                                   child: Row(
                                     children: <Widget>[
                                       Icon(
@@ -77,7 +80,7 @@ class DetailScreen extends StatelessWidget {
                                 elevation: 5,
                                 color: Colors.blue,
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8),
+                                  padding: const EdgeInsets.all(13),
                                   child: Text(
                                     '★ ${movie.voteAverage}',
                                     style: TextStyle(
@@ -94,7 +97,14 @@ class DetailScreen extends StatelessWidget {
                   ],
                 ),
                 Divider(),
-                Text(movie.overview),
+                Text(
+                  '  ${movie.overview}',
+
+                style: TextStyle(
+                  height: 2,
+                  fontSize: 17,
+                ),
+                ),
               ],
             ),
           ),
