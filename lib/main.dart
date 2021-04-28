@@ -18,13 +18,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Home(),
-
     );
   }
 }
 
 class Home extends StatefulWidget {
-  Home({Key key,}) : super(key: key);
   @override
   _HomeState createState() => _HomeState();
 }
@@ -34,7 +32,6 @@ class _HomeState extends State<Home> {
   final List<Results> filteredItems = [];
   Future<Movies> data;
   Movies _result;
-
 
   Future<Movies> fetchData() async {
     var url = Uri.parse(
@@ -95,7 +92,7 @@ class _HomeState extends State<Home> {
               margin: EdgeInsets.only(left: 16.0),
             ),
           ),
-          preferredSize: Size(0.0, 10.0),
+          preferredSize: Size(0.0, 30.0),
         ),
       ),
       body: Scaffold(
@@ -125,14 +122,14 @@ class _HomeState extends State<Home> {
               child: GridView.count(
                   crossAxisCount: 3,
                   childAspectRatio: 2 / 3.5,
-                  children: _buildShow(),
+                  children: filteredItems.map((e) => _buildItem(e)).toList()),
             ),
-            ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
   }
+
 
   Widget _buildItem(Results movie) {
     return InkWell(
@@ -148,13 +145,14 @@ class _HomeState extends State<Home> {
       ),
       onTap: () {
         Navigator.of(context).push(
-            MaterialPageRoute(
-            builder: (context) => DetailScreen(category: ),
-            ),
+          MaterialPageRoute(
+            builder: (context) => DetailScreen(movie: movie),
+          ),
         );
       },
     );
   }
+
 
   List<ListTile> _buildShow() {
     if (myController.text.isEmpty) {

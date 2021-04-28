@@ -21,6 +21,6 @@ void main() {
     expect(response.statusCode, 200);
 
     Movies result = Movies.fromJson(json.decode(response.body));
-    expect(result.dates.maximum, '2021-05-21');
+    expect(result.dates.maximum, '2021-05-20');
   });
 }
