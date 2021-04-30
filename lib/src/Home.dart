@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_movie/model/movies.dart';
 import 'package:flutter_movie/selectPage.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:flutter_movie/src/movie_info.dart';
+import 'package:provider/provider.dart';
+
 
 class Home extends StatefulWidget {
   @override
@@ -13,30 +14,18 @@ class _HomeState extends State<Home> {
   final myController = TextEditingController();
   final List<Results> filteredItems = [];
   Future<Movies> data;
-  Movies _result;
-
-  Future<Movies> fetchData() async {
-    var url = Uri.parse(
-        'https://api.themoviedb.org/3/movie/upcoming?api_key=a64533e7ece6c72731da47c9c8bc691f&language=ko-KR&page=1');
-    var response = await http.get(url);
-
-    Movies result = Movies.fromJson(json.decode(response.body));
-
-    return result;
-  }
 
   @override
   void initState() {
     super.initState();
-    fetchData().then((movies) {
-      setState(() {
-        _result = movies;
-        for (int i = 0; i < movies.results.length; i++) {
+
+    Provider.of<MovieInfo>(context, listen: false).fetchData();
+        for (int i = 0; i < movieInfo.results.length; i++) {
           filteredItems.add(movies.results[i]);
-        }
-      });
-    });
-  }
+        };
+      }
+
+
 
   @override
   Widget build(BuildContext context) {
