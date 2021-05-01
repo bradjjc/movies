@@ -6,29 +6,33 @@ import 'package:provider/provider.dart';
 
 
 class Home extends StatefulWidget {
+
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+
   final myController = TextEditingController();
   final List<Results> filteredItems = [];
   Future<Movies> data;
+  MovieInfo movieInfo;
 
   @override
   void initState() {
     super.initState();
 
     Provider.of<MovieInfo>(context, listen: false).fetchData();
-        for (int i = 0; i < movieInfo.results.length; i++) {
-          filteredItems.add(movies.results[i]);
-        };
-      }
+
+  }
 
 
 
   @override
   Widget build(BuildContext context) {
+    MovieInfo movieInfo = Provider.of<MovieInfo>(context);
+    Movies result = movieInfo.result;
+
     return Scaffold(
       drawer: Drawer(
         child: Container(
@@ -76,7 +80,7 @@ class _HomeState extends State<Home> {
               onChanged: (text) {
                 setState(() {
                   filteredItems.clear();
-                  filteredItems.addAll(_result.results
+                  filteredItems.addAll(result.results
                       .where((item) => item.title.contains(text)));
                 });
               },
@@ -93,7 +97,8 @@ class _HomeState extends State<Home> {
               child: GridView.count(
                   crossAxisCount: 3,
                   childAspectRatio: 2 / 3.5,
-                  children: _result == null ? [] : _buildShow()),
+                  children: result?.results == null ? [] : _buildShow()
+              ),
             ),
           ],
         ),
@@ -127,7 +132,7 @@ class _HomeState extends State<Home> {
 
   List<Widget> _buildShow() {
     if (myController.text.isEmpty) {
-      return _result.results.map((movie) => _buildItem(movie)).toList();
+      return movieInfo.result.results.map((movie) => _buildItem(movie)).toList();
     }
     return filteredItems.map((e) => _buildItem(e)).toList();
   }

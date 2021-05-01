@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => MovieInfo()),
+        ChangeNotifierProvider<MovieInfo>(create: (_) => MovieInfo()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
