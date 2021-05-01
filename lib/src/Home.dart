@@ -13,8 +13,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-  final myController = TextEditingController();
-  final List<Results> filteredItems = [];
   Future<Movies> data;
   MovieInfo movieInfo;
 
@@ -76,11 +74,11 @@ class _HomeState extends State<Home> {
         body: Column(
           children: <Widget>[
             TextField(
-              controller: myController,
+              controller: movieInfo.myController,
               onChanged: (text) {
                 setState(() {
-                  filteredItems.clear();
-                  filteredItems.addAll(result.results
+                  movieInfo.filteredItems.clear();
+                  movieInfo.filteredItems.addAll(result.results
                       .where((item) => item.title.contains(text)));
                 });
               },
@@ -97,7 +95,7 @@ class _HomeState extends State<Home> {
               child: GridView.count(
                   crossAxisCount: 3,
                   childAspectRatio: 2 / 3.5,
-                  children: result?.results == null ? [] : _buildShow()
+                  children: result == null ? [] : _buildShow(),
               ),
             ),
           ],
@@ -107,22 +105,22 @@ class _HomeState extends State<Home> {
   }
 
 
-  Widget _buildItem(Results movie) {
+  Widget _buildItem(Results movies) {
     return InkWell(
       child: Card(
         color: Colors.blueGrey,
         margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
         child: Column(
           children: [
-            Image.network('https://image.tmdb.org/t/p/w500/${movie.posterPath}'),
-            Text('${movie.title}', style: TextStyle(height: 1.5, fontSize: 15, fontWeight: FontWeight.bold),),
+            Image.network('https://image.tmdb.org/t/p/w500/${movies.posterPath}'),
+            Text('${movies.title}', style: TextStyle(height: 1.5, fontSize: 15, fontWeight: FontWeight.bold),),
           ],
         ),
       ),
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => DetailScreen(movie: movie),
+            builder: (context) => DetailScreen(movie: movies),
           ),
         );
       },
@@ -131,9 +129,9 @@ class _HomeState extends State<Home> {
 
 
   List<Widget> _buildShow() {
-    if (myController.text.isEmpty) {
-      return movieInfo.result.results.map((movie) => _buildItem(movie)).toList();
+    if (movieInfo.myController.text.isEmpty) {
+      return movieInfo.result.results.map((movies) => _buildItem(movies)).toList();
     }
-    return filteredItems.map((e) => _buildItem(e)).toList();
+    return movieInfo.filteredItems.map((e) => _buildItem(e)).toList();
   }
 }

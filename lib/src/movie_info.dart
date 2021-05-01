@@ -9,6 +9,7 @@ class MovieInfo extends ChangeNotifier {
   Movies get result => _result;
 
   final myController = TextEditingController();
+  final List<Results> filteredItems = [];
 
   Future<Movies> fetchData() async {
     var url = Uri.parse(
