@@ -4,15 +4,13 @@ import 'package:flutter_movie/selectPage.dart';
 import 'package:flutter_movie/src/movie_info.dart';
 import 'package:provider/provider.dart';
 
-
 class Home extends StatefulWidget {
-
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-
+  final myController = TextEditingController();
   Future<Movies> data;
   MovieInfo movieInfo;
 
@@ -21,10 +19,7 @@ class _HomeState extends State<Home> {
     super.initState();
 
     Provider.of<MovieInfo>(context, listen: false).fetchData();
-
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +69,7 @@ class _HomeState extends State<Home> {
         body: Column(
           children: <Widget>[
             TextField(
-              controller: movieInfo.myController,
+              controller: myController,
               onChanged: (text) {
                 setState(() {
                   movieInfo.filteredItems.clear();
@@ -93,9 +88,9 @@ class _HomeState extends State<Home> {
             ),
             Expanded(
               child: GridView.count(
-                  crossAxisCount: 3,
-                  childAspectRatio: 2 / 3.5,
-                  children: result == null ? [] : _buildShow(),
+                crossAxisCount: 3,
+                childAspectRatio: 2 / 3.5,
+                children: result == null ? [] : _buildShow(),
               ),
             ),
           ],
@@ -104,7 +99,6 @@ class _HomeState extends State<Home> {
     );
   }
 
-
   Widget _buildItem(Results movies) {
     return InkWell(
       child: Card(
@@ -112,8 +106,13 @@ class _HomeState extends State<Home> {
         margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
         child: Column(
           children: [
-            Image.network('https://image.tmdb.org/t/p/w500/${movies.posterPath}'),
-            Text('${movies.title}', style: TextStyle(height: 1.5, fontSize: 15, fontWeight: FontWeight.bold),),
+            Image.network(
+                'https://image.tmdb.org/t/p/w500/${movies.posterPath}'),
+            Text(
+              '${movies.title}',
+              style: TextStyle(
+                  height: 1.5, fontSize: 15, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),
@@ -127,10 +126,11 @@ class _HomeState extends State<Home> {
     );
   }
 
-
   List<Widget> _buildShow() {
-    if (movieInfo.myController.text.isEmpty) {
-      return movieInfo.result.results.map((movies) => _buildItem(movies)).toList();
+    MovieInfo movieInfo = Provider.of<MovieInfo>(context);
+    Movies result = movieInfo.result;
+    if (myController.text.isEmpty) {
+      return result.results.map((movies) => _buildItem(movies)).toList();
     }
     return movieInfo.filteredItems.map((e) => _buildItem(e)).toList();
   }
