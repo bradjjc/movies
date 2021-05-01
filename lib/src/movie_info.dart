@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class MovieInfo extends ChangeNotifier {
+  final myController = TextEditingController();
   Movies _result;
 
   Movies get result => _result;

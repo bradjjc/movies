@@ -10,14 +10,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final myController = TextEditingController();
-  Future<Movies> data;
-  MovieInfo movieInfo;
 
   @override
   void initState() {
     super.initState();
-
     Provider.of<MovieInfo>(context, listen: false).fetchData();
   }
 
@@ -69,7 +65,7 @@ class _HomeState extends State<Home> {
         body: Column(
           children: <Widget>[
             TextField(
-              controller: myController,
+              controller: movieInfo.myController,
               onChanged: (text) {
                 setState(() {
                   movieInfo.filteredItems.clear();
@@ -129,7 +125,7 @@ class _HomeState extends State<Home> {
   List<Widget> _buildShow() {
     MovieInfo movieInfo = Provider.of<MovieInfo>(context);
     Movies result = movieInfo.result;
-    if (myController.text.isEmpty) {
+    if (movieInfo.myController.text.isEmpty) {
       return result.results.map((movies) => _buildItem(movies)).toList();
     }
     return movieInfo.filteredItems.map((e) => _buildItem(e)).toList();
